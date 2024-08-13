@@ -124,11 +124,26 @@ public class SecurityConfig {
             .authorizeHttpRequests(authorize -> 
                 authorize
                     .requestMatchers("/api/auth/**").permitAll()  // Allow public access to authentication endpoints
-                    .requestMatchers(HttpMethod.GET, "/api/contacts/").hasAnyRole("STAFF", "ADMIN")  // Allow GET requests to contacts for authenticated users with role USER or ADMIN
-                    .requestMatchers(HttpMethod.POST, "/api/contacts/").hasRole("ADMIN")  // Allow POST requests to contacts for authenticated users with role ADMIN
-                    .requestMatchers(HttpMethod.PUT, "/api/contacts/").hasRole("ADMIN")  // Allow PUT requests to contacts for authenticated users with role ADMIN
-                    .requestMatchers(HttpMethod.DELETE, "/api/contacts/").hasRole("ADMIN")  // Allow DELETE requests to contacts for authenticated users with role ADMIN
-                    .requestMatchers("/api/contact-detail/").hasRole("USER")  // Restrict access to contact details for users with role USER
+                    .requestMatchers(HttpMethod.GET, "/api/contacts/").hasAnyRole("STAFF", "ADMIN")  
+                    .requestMatchers(HttpMethod.POST, "/api/contacts/").hasRole("ADMIN") 
+                    .requestMatchers(HttpMethod.PUT, "/api/contacts/").hasRole("ADMIN")  
+                    .requestMatchers(HttpMethod.DELETE, "/api/contacts/").hasRole("ADMIN")
+                    
+                    //users
+                    
+                    .requestMatchers(HttpMethod.POST,"/api/users").hasRole("STAFF")
+                    .requestMatchers(HttpMethod.GET, "/api/users/").hasRole("STAFF")  
+                    .requestMatchers(HttpMethod.GET, "/api/users/{id}").hasRole("STAFF")
+                    .requestMatchers(HttpMethod.PUT, "/api/users/{id}").hasRole("STAFF")                    
+                    .requestMatchers(HttpMethod.DELETE, "/api/users/{id}").hasRole("STAFF")
+                    
+                    //contactDetail   /api/contact-detail
+                    
+                    .requestMatchers("/api/contact-detail/").hasRole("STAFF")  
+                    .requestMatchers(HttpMethod.GET, "/api/contact-detail/{contactId}/details").hasRole("STAFF")
+                    .requestMatchers(HttpMethod.GET, "/api/contact-detail/{contactId}/details").hasRole("STAFF")
+                    .requestMatchers(HttpMethod.PUT,"/api/contact-detail//details/{id}").hasRole("STAFF")
+                     
                     .anyRequest().authenticated()  // All other requests require authentication
             )
             .exceptionHandling(exception -> 
