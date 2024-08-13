@@ -144,16 +144,15 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.GET, "/api/contact-detail/{contactId}/details").hasRole("STAFF")
                     .requestMatchers(HttpMethod.PUT,"/api/contact-detail//details/{id}").hasRole("STAFF")
                      
-                    .anyRequest().authenticated()  // All other requests require authentication
+                    .anyRequest().authenticated()  
             )
             .exceptionHandling(exception -> 
                 exception
-                    .authenticationEntryPoint(authenticationEntryPoint)  // Handle unauthorized access attempts
+                    .authenticationEntryPoint(authenticationEntryPoint)  
             )
             .sessionManagement(session -> 
                 session
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)  // Use stateless session management
-            );
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)              );
 
         http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
